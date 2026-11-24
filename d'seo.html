@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D'SEOS | Sandwiches</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #e67e22;
+      --primary-dark: #d35400;
+      --dark: #2c3e50;
+      --light: #fdf6f0;
+      --white: #ffffff;
+      --gray: #7f8c8d;
+      --success: #27ae60;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--light);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    /* ===== HEADER & NAV ===== */
+    header {
+      background: var(--dark);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .top-bar {
+      background: var(--primary);
+      text-align: center;
+      padding: 10px;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .top-bar a {
+      color: white;
+      text-decoration: none;
+      margin: 0 14px;
+      font-weight: 600;
+      transition: opacity 0.3s;
+    }
+
+    .top-bar a:hover {
+      opacity: 0.85;
+      text-decoration: underline;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 5%;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--primary);
+      letter-spacing: 1px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .cart-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.3s;
+    }
+
+    .cart-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    #cart-count {
+      background: white;
+      color: var(--primary);
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: linear-gradient(rgba(44, 62, 80, 0.75), rgba(44, 62, 80, 0.85)),
+                  url('https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=1400&q=80') center/cover;
+      color: white;
+      text-align: center;
+      padding: 100px 20px;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.2rem;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      max-width: 700px;
+      margin: 0 auto 25px;
+      opacity: 0.95;
+    }
+
+    .frase {
+      font-style: italic;
+      font-size: 1.1rem;
+      color: #f1c40f;
+      margin-top: 20px;
+    }
+
+    /* ===== SECTIONS ===== */
+    section {
+      padding: 70px 5%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      text-align: center;
+      margin-bottom: 50px;
+      color: var(--dark);
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: var(--primary);
+      margin: 12px auto 0;
+      border-radius: 2px;
+    }
+
+    /* ===== PRODUCTOS ===== */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 30px;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+    }
+
+    .product-img {
+      height: 200px;
+      background: #f0e6d9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .product-info {
+      padding: 20px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-info h3 {
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+
+    .price {
+      color: var(--primary);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .add-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: auto;
+    }
+
+    .add-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    /* ===== NOSOTROS ===== */
+    #nosotros {
+      background: white;
+      border-radius: 20px;
+      padding: 50px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      text-align: center;
+    }
+
+    #nosotros p {
+      font-size: 1.15rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* ===== CONTACTO ===== */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+
+    .contact-card {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+      text-align: center;
+    }
+
+    .contact-card h3 {
+      margin-bottom: 10px;
+    }
+
+    .whatsapp-btn {
+      display: inline-block;
+      background: #25D366;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 12px;
+      transition: background 0.3s;
+    }
+
+    .whatsapp-btn:hover {
+      background: #1ebe57;
+    }
+
+    /* Formulario de deseos / reseñas */
+    .deseos-box {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      max-width: 650px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .deseos-box h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      color: var(--dark);
+    }
+
+    .deseos-box p {
+      color: var(--gray);
+      margin-bottom: 25px;
+    }
+
+    .deseos-box input,
+    .deseos-box textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #eee;
+      border-radius: 12px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      margin-bottom: 15px;
+      transition: border-color 0.3s;
+      resize: vertical;
+    }
+
+    .deseos-box input:focus,
+    .deseos-box textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .deseos-box button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 14px 40px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .deseos-box button:hover {
+      background: var(--primary-dark);
+      transform: scale(1.03);
+    }
+
+    /* Animación de enviado */
+    .enviado-msg {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      animation: fadeInScale 0.5s ease;
+    }
+
+    .enviado-msg.show {
+      display: flex;
+    }
+
+    .enviado-msg .check {
+      width: 80px;
+      height: 80px;
+      background: var(--success);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.8rem;
+      color: white;
+      margin-bottom: 20px;
+      animation: bounceIn 0.6s ease;
+    }
+
+    .enviado-msg h3 {
+      color: var(--success);
+      font-size: 1.6rem;
+      margin-bottom: 8px;
+    }
+
+    @keyframes fadeInScale {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes bounceIn {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    /* ===== CARRITO (MODAL) ===== */
+    .cart-modal {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: 380px;
+      height: 100%;
+      background: white;
+      box-shadow: -5px 0 25px rgba(0,0,0,0.15);
+      z-index: 2000;
+      transition: right 0.35s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart-modal.open {
+      right: 0;
+    }
+
+    .cart-header {
+      background: var(--dark);
+      color: white;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cart-header h2 {
+      font-size: 1.4rem;
+    }
+
+    .close-cart {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.8rem;
+      cursor: pointer;
+    }
+
+    .cart-items {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .cart-item-info {
+      flex-grow: 1;
+    }
+
+    .cart-item-name {
+      font-weight: 600;
+    }
+
+    .cart-item-price {
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .qty-btn {
+      width: 28px;
+      height: 28px;
+      border: 1px solid #ddd;
+      background: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .remove-btn {
+      background: none;
+      border: none;
+      color: #e74c3c;
+      cursor: pointer;
+      font-size: 1.1rem;
+      margin-left: 8px;
+    }
+
+    .cart-footer {
+      padding: 20px;
+      border-top: 1px solid #eee;
+      background: #fafafa;
+    }
+
+    .cart-total {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .checkout-btn {
+      width: 100%;
+      background: var(--success);
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1.05rem;
+      cursor: pointer;
+    }
+
+    .checkout-btn:hover {
+      background: #219a52;
+    }
+
+    .empty-cart {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--gray);
+    }
+
+    /* Overlay */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1500;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+    }
+
+    .overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--dark);
+      color: white;
+      text-align: center;
+      padding: 40px 20px;
+      margin-top: 60px;
+    }
+
+    footer .frase-footer {
+      font-style: italic;
+      color: #f1c40f;
+      margin: 15px 0;
+      font-size: 1.1rem;
+    }
+
+    /* BOTÓN MIS REDES */
+    .btn-redes {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      padding: 14px 40px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin: 20px 0;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .btn-redes:hover {
+      background: var(--primary-dark);
+      transform: scale(1.05);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      .hero h1 {
+        font-size: 2.3rem;
+      }
+      .cart-modal {
+        width: 100%;
+        right: -100%;
+      }
+      .top-bar a {
+        margin: 0 8px;
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BARRA SUPERIOR -->
+  <div class="top-bar">
+    <a href="#nosotros">Nosotros</a> |
+    <a href="#productos">Productos</a> |
+    <a href="#contacto">Contacto</a>
+  </div>
+
+  <!-- NAV PRINCIPAL -->
+  <header>
+    <nav>
+      <div class="logo">D'SEOS</div>
+      <ul class="nav-links">
+        <li><a href="#nosotros">Nosotros</a></li>
+        <li><a href="#productos">Productos</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <button class="cart-btn" onclick="toggleCart()">
+        🛒 Carrito <span id="cart-count">0</span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- HERO / BIENVENIDA -->
+  <section class="hero">
+    <h1>¡Bienvenidos a D'SEOS!</h1>
+    <p>
+      Nosotros somos un negocio de sandwiches.<br>
+      Esperamos que los disfrutes 👅
+    </p>
+    <p class="frase">“Degusta de lo mejor y haznos saber tu deseo”</p>
+  </section>
+
+  <!-- NOSOTROS -->
+  <section id="nosotros">
+    <h2 class="section-title">Nosotros</h2>
+    <p>
+      En <strong>D'SEOS</strong> preparamos sandwiches con los mejores ingredientes,
+      con mucho cariño y sabor. Estamos ubicados en Trinidad - Beni, listos para
+      cumplir tus antojos. ¡Haznos saber tu deseo!
+    </p>
+  </section>
+
+  <!-- PRODUCTOS -->
+  <section id="productos">
+    <h2 class="section-title">Nuestros Productos</h2>
+    <div class="products-grid">
+
+      <!-- 1. Sandwich de Pollo -->
+      <div class="product-card">
+        <div class="product-img">
+          <img src="sdp.jpg" alt="Sandwich de Pollo">
+        </div>
+        <div class="product-info">
+          <h3>Sandwich de Pollo</h3>
+          <div class="price">12 Bs</div>
+          <button class="add-btn" onclick="addToCart('Sandwich de Pollo', 12)">Agregar al carrito</button>
+        </div>
+      </div>
+
+      <!-- 2. Sandwich de Jamón -->
+      <div class="product-card">
+        <div class="product-img">
+          <img src="sdj.jpg" alt="Sandwich de Jamón">
+        </div>
+        <div class="product-info">
+          <h3>Sandwich de Jamón</h3>
+          <div class="price">10 Bs</div>
+          <button class="add-btn" onclick="addToCart('Sandwich de Jamón', 10)">Agregar al carrito</button>
+        </div>
+      </div>
+
+      <!-- 3. Sandwich Dietético -->
+      <div class="product-card">
+        <div class="product-img">
+          <img src="sdd.jpg" alt="Sandwich Dietético">
+        </div>
+        <div class="product-info">
+          <h3>Sandwich Dietético</h3>
+          <div class="price">15 Bs</div>
+          <button class="add-btn" onclick="addToCart('Sandwich Dietético', 15)">Agregar al carrito</button>
+        </div>
+      </div>
+
+      <!-- 4. Sandwich de Lomito -->
+      <div class="product-card">
+        <div class="product-img">
+          <img src="sdl.jpg" alt="Sandwich de Lomito">
+        </div>
+        <div class="product-info">
+          <h3>Sandwich de Lomito</h3>
+          <div class="price">18 Bs</div>
+          <button class="add-btn" onclick="addToCart('Sandwich de Lomito', 18)">Agregar al carrito</button>
+        </div>
+      </div>
+
+      <!-- 5. Porción de Papa -->
+      <div class="product-card">
+        <div class="product-img">
+          <img src="spp.jpg" alt="Porción de Papa">
+        </div>
+        <div class="product-info">
+          <h3>Porción de Papa</h3>
+          <div class="price">5 Bs</div>
+          <button class="add-btn" onclick="addToCart('Porción de Papa', 5)">Agregar al carrito</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <h2 class="section-title">Contacto</h2>
+    
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div style="font-size:2.5rem; margin-bottom:10px;">📱</div>
+        <h3>Celular / WhatsApp</h3>
+        <p><strong>71899717</strong></p>
+        <a href="https://wa.me/+59171899717" class="whatsapp-btn" target="_blank">
+          💬 Escribir por WhatsApp
+        </a>
+      </div>
+      
+      <div class="contact-card">
+        <div style="font-size:2.5rem; margin-bottom:10px;">📍</div>
+        <h3>Ubicación</h3>
+        <p>Trinidad - Beni - Bolivia</p>
+        <p>Barrio VILLA MARIN<br>Calle #22 Sur, Casa #23</p>
+      </div>
+      
+      <div class="contact-card">
+        <div style="font-size:2.5rem; margin-bottom:10px;">💬</div>
+        <h3>Nuestro deseo</h3>
+        <p style="font-style:italic; color:var(--primary);">
+          “Degusta de lo mejor y haznos saber tu deseo”
+        </p>
+      </div>
+    </div>
+
+    <!-- FORMULARIO DE DESEOS / RESEÑAS -->
+    <div class="deseos-box" id="deseosBox">
+      <div id="formDeseo">
+        <h3>Haznos saber tu deseo 👅</h3>
+        <p>Déjanos tu reseña o lo que se te antoje. ¡Nos encanta leerte!</p>
+        
+        <input type="text" id="nombreDeseo" placeholder="Tu nombre" required>
+        <textarea id="mensajeDeseo" rows="4" placeholder="Escribe tu reseña o deseo aquí..." required></textarea>
+        <button onclick="enviarDeseo()">Enviar mi deseo</button>
+      </div>
+
+      <!-- Mensaje de enviado -->
+      <div class="enviado-msg" id="enviadoMsg">
+        <div class="check">✓</div>
+        <h3>¡Enviado con éxito!</h3>
+        <p>Gracias por compartir tu deseo con nosotros 🧡</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="logo" style="color:var(--primary); margin-bottom:10px;">D'SEOS</div>
+    <p class="frase-footer">“Degusta de lo mejor y haznos saber tu deseo”</p>
+    <p>Trinidad - Beni - Bolivia | 71899717</p>
+
+    <!-- BOTÓN MIS REDES (cambia el href="#" por tu enlace) -->
+    <br>
+    <a href="link.me/deivmjx" class="btn-redes" target="_blank">MIS REDES</a>
+
+    <p style="margin-top:25px; opacity:0.7; font-size:0.9rem;">© 2026 D'SEOS. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- OVERLAY -->
+  <div class="overlay" id="overlay" onclick="toggleCart()"></div>
+
+  <!-- CARRITO LATERAL -->
+  <div class="cart-modal" id="cartModal">
+    <div class="cart-header">
+      <h2>🛒 Tu Carrito</h2>
+      <button class="close-cart" onclick="toggleCart()">×</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <div class="empty-cart">Tu carrito está vacío</div>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Total:</span>
+        <span id="cartTotal">0 Bs</span>
+      </div>
+      <button class="checkout-btn" onclick="checkout()">Pedir por WhatsApp</button>
+    </div>
+  </div>
+
+  <script>
+    // ===== CARRITO =====
+    let cart = [];
+
+    function addToCart(name, price) {
+      const existing = cart.find(item => item.name === name);
+      if (existing) {
+        existing.qty++;
+      } else {
+        cart.push({ name, price, qty: 1 });
+      }
+      updateCartUI();
+      
+      const btn = event.target;
+      btn.textContent = "¡Agregado! ✓";
+      setTimeout(() => btn.textContent = "Agregar al carrito", 900);
+    }
+
+    function changeQty(name, delta) {
+      const item = cart.find(i => i.name === name);
+      if (!item) return;
+      item.qty += delta;
+      if (item.qty <= 0) {
+        cart = cart.filter(i => i.name !== name);
+      }
+      updateCartUI();
+    }
+
+    function removeItem(name) {
+      cart = cart.filter(i => i.name !== name);
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const container = document.getElementById('cartItems');
+      const countEl = document.getElementById(
